@@ -12,8 +12,17 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     // Spawns the 2D Camera
     commands.spawn(Camera2d);
 
-    // Initializes What Spaceship and Velocity are, And Spawns the Spaceship Sprite on the Screen
-    // Idk what the Transform thingy does
+    // Spawn Background
+    commands.spawn((
+        Sprite {
+            image: asset_server.load("background.png"),
+            ..default()
+        },
+        // Idk what this does
+        Transform::from_xyz(0.0, 0.0, -1.0), // Kept behind the spaceship via Z axis
+    ));
+
+    // Spawns Spaceship
     commands.spawn((
         Spaceship,
         // Velocity(Vec2::ZERO),
@@ -21,12 +30,8 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             image: asset_server.load("spaceship.png"),
             ..default()
         },
-        Transform::from_xyz(0.0, 0.0, 0.0),
-        Sprite {
-            image: asset_server.load("background.png"),
-            ..default()
-        },
-        Transform::from_scale(Vec3::splat(2.0)),
+        // Idk what this does
+        Transform::from_xyz(0.0, 0.0, 0.0).with_scale(Vec3::splat(2.0)),
     )); // OMG! Look at these Brackets
 }
 
