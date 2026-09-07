@@ -31,7 +31,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             ..default()
         },
         // Idk what this does
-        Transform::from_xyz(0.0, 0.0, 0.0).with_scale(Vec3::splat(2.0)),
+        Transform::from_xyz(0.0, -250.0, 0.0).with_scale(Vec3::splat(2.0)),
     )); // OMG! Look at these Brackets
 }
 
