@@ -1,53 +1,57 @@
-use bevy::{input::keyboard::Key, prelude::*};
+use bevy::{input::keyboard::key, prelude::*};
 
-// Represents the Playable Spaceship
-#[derive(Component)]
-struct Spaceship;
+// represents the playable spaceship
+#[derive(component)]
+struct spaceship;
 
-// Defines the Velocity of the Asteroids
-// #[derive(Component)]
-// struct Velocity(Vec2);
+// defines the velocity of the asteroids
+// #[derive(component)]
+// struct velocity(vec2);
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    // Spawns the 2D Camera
-    commands.spawn(Camera2d);
+fn setup(mut commands: commands, asset_server: res<assetserver>) {
+    // spawns the 2d camera
+    commands.spawn(camera2d);
 
-    // Spawn Background
+    // spawn background
     commands.spawn((
-        Sprite {
+        sprite {
             image: asset_server.load("background.png"),
             ..default()
         },
-        // Idk what this does
-        Transform::from_xyz(0.0, 0.0, -1.0), // Kept behind the spaceship via Z axis
+        transform::from_xyz(0.0, 0.0, -1.0), // kept behind the spaceship via z axis
     ));
 
-    // Spawns Spaceship
+    // spawns spaceship
     commands.spawn((
-        Spaceship,
-        // Velocity(Vec2::ZERO),
-        Sprite {
+        spaceship,
+        // velocity(vec2::zero),
+        sprite {
             image: asset_server.load("spaceship.png"),
             ..default()
         },
-        // Idk what this does
-        Transform::from_xyz(0.0, -250.0, 0.0).with_scale(Vec3::splat(2.0)),
-    )); // OMG! Look at these Brackets
+        // idk what this does, so apparently chatgpt told me that it just gets multiplied to the xyz
+        // values like x * splat or something like that
+        transform::from_xyz(0.0, -250.0, 0.0).with_scale(vec3::splat(2.0)),
+    )); // omg! look at these brackets
 }
 
-// Exits the Application if Escape Key is pressed as I am too lazy to touch my Mouse... One of the
-// Reasons I use Lazyvim
-fn exit_on_esc(keyboard_input: Res<ButtonInput<Key>>, mut app_exit_events: MessageWriter<AppExit>) {
-    if keyboard_input.just_pressed(Key::Escape) {
-        app_exit_events.write(AppExit::Success);
+fn move_spaceship() {
+    const spaceship_speed: f32 = 400.0;
+}
+
+// exits the application if escape key is pressed as i am too lazy to touch my mouse... one of the
+// reasons i use lazyvim
+fn exit_on_esc(keyboard_input: res<buttoninput<key>>, mut app_exit_events: messagewriter<appexit>) {
+    if keyboard_input.just_pressed(key::escape) {
+        app_exit_events.write(appexit::success);
     }
 }
 
 fn main() {
-    // If you need to Read this... You are lazier than me as You can't read the Above Comments
-    App::new()
-        .add_plugins(DefaultPlugins)
-        .add_systems(Update, exit_on_esc)
-        .add_systems(Startup, setup)
+    // if you need to read this... you are lazier than me as you can't read the above comments
+    app::new()
+        .add_plugins(defaultplugins)
+        .add_systems(update, exit_on_esc)
+        .add_systems(startup, setup)
         .run();
 }
