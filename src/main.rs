@@ -1,4 +1,4 @@
-use bevy::{input::keyboard::KeyCode, prelude::*};
+use bevy::{input::keyboard::Key, prelude::*};
 
 // represents the playable spaceship
 #[derive(Component)]
@@ -69,11 +69,8 @@ fn move_spaceship(
 
 // exits the application if escape key is pressed as i am too lazy to touch my mouse... one of the
 // reasons i use lazyvim
-fn exit_on_esc(
-    keyboard_input: Res<ButtonInput<KeyCode>>,
-    mut app_exit_events: MessageWriter<AppExit>,
-) {
-    if keyboard_input.just_pressed(KeyCode::Escape) {
+fn exit_on_esc(keyboard_input: Res<ButtonInput<Key>>, mut app_exit_events: MessageWriter<AppExit>) {
+    if keyboard_input.just_pressed(Key::Escape) {
         app_exit_events.write(AppExit::Success);
     }
 }
