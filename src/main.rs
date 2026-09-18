@@ -1,4 +1,7 @@
-use bevy::{input::keyboard::Key, prelude::*};
+use bevy::{
+    input::keyboard::Key, prelude::*, window::MonitorSelection, window::Window, window::WindowMode,
+    window::WindowPlugin,
+};
 
 // represents the playable spaceship
 #[derive(Component)]
@@ -44,19 +47,19 @@ fn move_spaceship(
 
     let mut direction = Vec2::ZERO;
 
-    if keyboard_input.pressed(KeyCode::ArrowLeft) {
+    if keyboard_input.pressed(KeyCode::ArrowLeft) || keyboard_input.pressed(KeyCode::KeyA) {
         direction.x -= 1.0;
     }
 
-    if keyboard_input.pressed(KeyCode::ArrowRight) {
+    if keyboard_input.pressed(KeyCode::ArrowRight) || keyboard_input.pressed(KeyCode::KeyD) {
         direction.x += 1.0;
     }
 
-    if keyboard_input.pressed(KeyCode::ArrowUp) {
+    if keyboard_input.pressed(KeyCode::ArrowUp) || keyboard_input.pressed(KeyCode::KeyW) {
         direction.y += 1.0;
     }
 
-    if keyboard_input.pressed(KeyCode::ArrowDown) {
+    if keyboard_input.pressed(KeyCode::ArrowDown) || keyboard_input.pressed(KeyCode::KeyS) {
         direction.y -= 1.0;
     }
 
@@ -78,7 +81,13 @@ fn exit_on_esc(keyboard_input: Res<ButtonInput<Key>>, mut app_exit_events: Messa
 fn main() {
     // if you need to read this... you are lazier than me as you can't read the above comments
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                mode: WindowMode::BorderlessFullscreen(MonitorSelection::Primary),
+                ..default()
+            }),
+            ..default()
+        }))
         .add_systems(Update, (move_spaceship, exit_on_esc))
         .add_systems(Startup, setup)
         .run();
