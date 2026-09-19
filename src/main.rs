@@ -32,8 +32,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             image: asset_server.load("spaceship.png"),
             ..default()
         },
-        // idk what this does, so apparently chatgpt told me that it just gets multiplied to the xyz
-        // values like x * splat or something like that
+        // splat just gets multiplied to the xyz values like x * splat
         Transform::from_xyz(0.0, -250.0, 0.0).with_scale(Vec3::splat(2.0)),
     )); // omg! look at these brackets
 }
@@ -63,6 +62,7 @@ fn move_spaceship(
         direction.y -= 1.0;
     }
 
+    // This Line Does the Vector Normalization so the Speed even with Diagonal Velocity is same In all Directions
     if direction != Vec2::ZERO {
         direction = direction.normalize();
     }
